@@ -1622,8 +1622,8 @@ int main(int argc, char *argv[]) {
                     memcpy((k == keyA) ? (ptr_trailer->abtKeyA) : (ptr_trailer->abtKeyB), current_default_keys[j], MIFARE_CLASSIC_KEY_BYTELENGTH);
                 }
             }  // for (j = 0; (j < crntNumVerifKeys); j++)
-        }      // for (i=0; i<max_sectors; i++)
-    }          // for (k = keyA; k <= keyB; k++)
+        } // for (i=0; i<max_sectors; i++)
+    } // for (k = keyA; k <= keyB; k++)
 
     printf("\n");
 
@@ -1632,7 +1632,9 @@ int main(int argc, char *argv[]) {
     }
 
     // RECOVER KEYS CODE-BLOCK
-
+    // TODO:
+        // Fix: key is not displayed (only bunch of 0)
+        // Add: print the information panel every x seconds, not every iteration
     printf("\nRECOVER: ");
     for (i = 0; i < max_sectors; i++) {
         uint64_t crntRecovKey = 0;
@@ -1668,7 +1670,7 @@ int main(int argc, char *argv[]) {
                     return EXIT_FAILURE;
                 }
 
-                if (0 > nfc_initiator_init(pnd)) {
+                if (nfc_initiator_init(pnd) < 0) {
                     ERR("initializing NFC reader: %s", nfc_device_get_name(pnd));
                     goto error;
                 }
@@ -1701,13 +1703,10 @@ int main(int argc, char *argv[]) {
                     }
 
                     uiErrCode = mfcuk_key_recovery_block(pnd, tag_recover_verify.uid, crntRecovKey, j, tag_recover_verify.type, block, &ui64KeyRecovered);
-
                     if (uiErrCode != MFCUK_OK_KEY_RECOVERED && uiErrCode != MFCUK_SUCCESS && uiErrCode != MFCUK_FAIL_AUTH && weak_mifare_threshold == false) {
                         ERR("mfcuk_key_recovery_block() (error code=0x%02x)", uiErrCode);
                     }
-
                     mfcuk_darkside_reset_advanced(pnd);
-
                     numAuthAttempts++;
                 } while (uiErrCode != MFCUK_OK_KEY_RECOVERED);
 
