@@ -1,7 +1,7 @@
 # MiFare Classic Universal toolKit (MFCUK)
 { caption }
 
-## Install
+## INSTALL 
 ### Prerequisites
 * [LibNFC 1.8.0](https://github.com/nfc-tools/libnfc/releases) 
 * _pkg-config_, _automake_ and _libtool_
@@ -16,6 +16,7 @@ make
 
 ### Running
 Basic usage, recover key A for sector n.0, with a verbosity level of 2: `mfcuk -C -R 0:A -v 2`
+
 Weak card, recover key B for sector n.1 with a verbosity level of 3: `mfcuk -C -R 1:B -w 6 -v 3`
 
 ## AUTHOR
@@ -46,7 +47,7 @@ To use mfcuk in weak card mode add '-w threshold' to cmdline args. Suggested thr
 ## LICENSE
 GPL. See `license/LICENSE` for more information.
 
-## BIBLIOGRAPHY (no specific order)
+## BIBLIOGRAPHY (no specific order)
 1. [WPMCC09] - "Wirelessly Pickpocketing a Mifare Classic Card"
 2. [ESO08] - "2008-esorics.pdf"
 3. [ESOSL08] - "2008-esorics-slides-updated.pdf"
