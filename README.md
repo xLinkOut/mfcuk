@@ -1,64 +1,52 @@
-README
-======
+# MiFare Classic Universal toolKit (MFCUK)
+{ caption }
 
-Compiling:
-    autoreconf -is
-    ./configure
-    make
+## Install
+### Prerequisites
+* [LibNFC 1.8.0](https://github.com/nfc-tools/libnfc/releases) 
+* _pkg-config_, _automake_ and _libtool_
 
-Running (most basic):
-    ./mfcuk -C -R 0:A -v 2
-
-PACKAGE
--------
-MiFare Classic Universal toolKit (MFCUK)
-
-TOOL(S)
--------
-Mifare Classic DarkSide Key Recovery Tool (mfcuk_keyrecovery_darkside.c) (previously known as zv_mf_dark_side)
-...
-
-INSTALL
--------
-If you use a development version (SVN), you have to run:
+### Compiling
+```bash
 autoreconf -is
 ./configure
 make
+(sudo) make install # optional
+```
 
-LICENSE
--------
-GPL. See MFCUK_LICENSE for more information.
+### Running
+Basic usage, recover key A for sector n.0, with a verbosity level of 2: `mfcuk -C -R 0:A -v 2`
+Weak card, recover key B for sector n.1 with a verbosity level of 3: `mfcuk -C -R 1:B -w 6 -v 3`
 
-AUTHOR
-------
+## AUTHOR
 Andrei Costin <zveriu@gmail.com>, http://andreicostin.com
+### CONTRUBUTORS
+* Romuald Conty <romuald@libnfc.org> - porting to libnfc 1.3.x, 1.4.x, 1.5.x
+* Nethemba Core Team <mifare@nethemba.com> - core AC, AM, configure and packaging
+* DrSchottky <> - weak cards patch, fix 0x03 error
 
-CONTRUBUTORS
-------------
-Romuald Conty <romuald@libnfc.org> - porting to libnfc 1.3.x, 1.4.x, 1.5.x
-Nethemba Core Team	<mifare@nethemba.com> - core AC, AM, configure and packaging
-
-WEAK CARDS PATCH
-----------------
+## WEAK CARDS PATCH
 mfcuk does not handle cards that always respond with NACK to failed auth attempts. This is the cause of 0x03 error on some cards.
-@Stewart8 solved the problem (https://github.com/nfc-tools/mfcuk/issues/39) and I applied his patch to mfcuk source with some adjustments
--no more crashes with 1M+ candidates
--configurable maxhi/lo threshold
--"weak card mode" can be turned on/off selectively
+@Stewart8 [solved the problem](https://github.com/nfc-tools/mfcuk/issues/39) and @DrSchottky applied his patch to mfcuk source with some adjustments, like:
+- no more crashes with 1M+ candidates
+- configurable maxhi/lo threshold
+- "weak card mode" can be turned on/off selectively
 To use mfcuk in weak card mode add '-w threshold' to cmdline args. Suggested threshold val: >=6
 
-TODO
-=====
-0. Integrate with MFOC into MFCUK
-1. Improve the performance (though not bad)
-2. Optimize bits operations
-3. Remove dead-code/commented block after testing
-4. Proper error handling in some cases (not critical errors, but nice to have checks in place)
-5. Periodically save the state (or most important part of it at least) such as of Nt/Nr arrays, etc., so that it can later be resumed on the same card
-6. Calibration methodology and routine for MFCUK to determine best field on/off delays so that it generates the lowest entropy for tag's Nt values
+## TODO
+0. Remove dead-code/commented block after testing
+1. Proper error handling in some cases (not critical errors, but nice to have checks in place)
+2. Integrate with MFOC into MFCUK
+3. Create sort of GUI
+4. Improve the performance (though not bad)
+5. Optimize bits operations
+6. Periodically save the state (or most important part of it at least) such as of Nt/Nr arrays, etc., so that it can later be resumed on the same card
+7. Calibration methodology and routine for MFCUK to determine best field on/off delays so that it generates the lowest entropy for tag's Nt values
 
-BIBLIOGRAPHY (no specific order)
----------------------------------
+## LICENSE
+GPL. See `license/LICENSE` for more information.
+
+## BIBLIOGRAPHY (no specific order)
 1. [WPMCC09] - "Wirelessly Pickpocketing a Mifare Classic Card"
 2. [ESO08] - "2008-esorics.pdf"
 3. [ESOSL08] - "2008-esorics-slides-updated.pdf"
@@ -74,8 +62,7 @@ BIBLIOGRAPHY (no specific order)
 13. [ROSSSASG] - "SASG35_Peter_v_Rossum_Mifare.pdf"
 14. [DARK2009] - "THE DARK SIDE OF SECURITY BY OBSCURITY and Cloning MiFare Classic Rail and Building Passes, Anywhere, Anytime"
 
-KUDOS and HATS-OFF to (no specific order) (for all the knowledge, time spent researching and all the things)
----------------------
+### KUDOS and HATS-OFF to (no specific order) (for all the knowledge, time spent researching and all the things)
  - blapost@gmail.com - this man is a genius and a technical artist. crapto1 3.1 is the horse power of this tool. PS: you somehow resemble I.C.Wiener anonymous&smart hacker
  - Roel and RConty @ libnfc/proxmark - these guys are true advisers, helpful. Thanks for providing a powerfull platform for NFC
  - N.Curtois - also a crypto-artist in differential analysis. The 29bit prefix attack is pure genius of theoretical analysis.
