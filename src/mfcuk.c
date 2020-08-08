@@ -112,11 +112,11 @@
 --------------------------------------------------------------------------------
 */
 
+#include "config.h"
+
 #include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "config.h"
 
 #if defined(HAVE_SYS_TYPES_H)
 #include <sys/types.h>
