@@ -18,10 +18,44 @@ TOOL(S)
 Mifare Classic DarkSide Key Recovery Tool (mfcuk_keyrecovery_darkside.c) (previously known as zv_mf_dark_side)
 ...
 
+INSTALL
+-------
+If you use a development version (SVN), you have to run:
+autoreconf -is
+./configure
+make
+
 LICENSE
 -------
 GPL. See MFCUK_LICENSE for more information.
 
+AUTHOR
+------
+Andrei Costin <zveriu@gmail.com>, http://andreicostin.com
+
+CONTRUBUTORS
+------------
+Romuald Conty <romuald@libnfc.org> - porting to libnfc 1.3.x, 1.4.x, 1.5.x
+Nethemba Core Team	<mifare@nethemba.com> - core AC, AM, configure and packaging
+
+WEAK CARDS PATCH
+----------------
+mfcuk does not handle cards that always respond with NACK to failed auth attempts. This is the cause of 0x03 error on some cards.
+@Stewart8 solved the problem (https://github.com/nfc-tools/mfcuk/issues/39) and I applied his patch to mfcuk source with some adjustments
+-no more crashes with 1M+ candidates
+-configurable maxhi/lo threshold
+-"weak card mode" can be turned on/off selectively
+To use mfcuk in weak card mode add '-w threshold' to cmdline args. Suggested threshold val: >=6
+
+TODO
+=====
+0. Integrate with MFOC into MFCUK
+1. Improve the performance (though not bad)
+2. Optimize bits operations
+3. Remove dead-code/commented block after testing
+4. Proper error handling in some cases (not critical errors, but nice to have checks in place)
+5. Periodically save the state (or most important part of it at least) such as of Nt/Nr arrays, etc., so that it can later be resumed on the same card
+6. Calibration methodology and routine for MFCUK to determine best field on/off delays so that it generates the lowest entropy for tag's Nt values
 
 BIBLIOGRAPHY (no specific order)
 ---------------------------------
