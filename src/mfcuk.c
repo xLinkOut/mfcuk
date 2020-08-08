@@ -983,14 +983,12 @@ int main(int argc, char *argv[]) {
     }
 
     // Load fingerprinting "database"
-    mfcuk_finger_load();
-    /*
-        if (mfcuk_finger_load() == 0)
-        {
-            ERR ("Unable to load any fingerprinting database.");
-            exit (EXIT_FAILURE);
-        }
-    */
+    int fp_result = mfcuk_finger_load();
+    if (mfcuk_finger_load() == 0){
+        ERR("Unable to load any fingerprinting database.");
+        return EXIT_FAILURE;
+    }
+
     // OPTION PROCESSING BLOCK
     // TODO: for WIN32 figure out how to use unistd/posix-compatible Gnu.Getopt.dll (http://getopt.codeplex.com)
     // For WIN32 using VERY limited (modified) Xgetopt (http://www.codeproject.com/KB/cpp/xgetopt.aspx)
