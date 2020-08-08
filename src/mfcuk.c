@@ -644,47 +644,47 @@ static uint32_t mfcuk_key_recovery_block(nfc_device *pnd, uint32_t uiUID, uint64
         }
 
         states_list = lfsr_common_prefix(ptrFoundTagNonceEntry->spoofNrPfx, ptrFoundTagNonceEntry->spoofArEnc, ptrFoundTagNonceEntry->ks, ptrFoundTagNonceEntry->parBitsArr);
-	
-	for (i = 0; (states_list) && ((states_list + i)->odd != 0 || (states_list + i)->even != 0) && (i < (MAX_COMMON_PREFIX_STATES<<4)); i++) {
+
+  for (i = 0; (states_list) && ((states_list + i)->odd != 0 || (states_list + i)->even != 0) && (i < (MAX_COMMON_PREFIX_STATES<<4)); i++) {
           current_state = states_list + i;
           lfsr_rollback_word(current_state, uiUID ^ ptrFoundTagNonceEntry->tagNonce, 0);
           crypto1_get_lfsr(current_state, &key_recovered);
           ++hicnt[(key_recovered >> 24) & 0xffffff];
           ++locnt[key_recovered & 0xffffff];
           if(weak_mifare_mode == false) {
-        	  if (bfOpts['v'] && (verboseLevel > 1)) {
-        		  printf("\nINFO: block %d recovered KEY: %012"PRIx64"\n", uiBlock, key_recovered);
-        	  }
-        	  flag_key_recovered = 1;
-        	  *ui64KeyRecovered = key_recovered;
+            if (bfOpts['v'] && (verboseLevel > 1)) {
+              printf("\nINFO: block %d recovered KEY: %012"PRIx64"\n", uiBlock, key_recovered);
+            }
+            flag_key_recovered = 1;
+            *ui64KeyRecovered = key_recovered;
           }
         }
-	if(weak_mifare_mode == true) {
-		if (bfOpts['v'] && (verboseLevel > 2))
-			printf("\nINFO: %d candidates found, nonce %08x\n", i, ptrFoundTagNonceEntry->tagNonce);
-		int maxhi = 0;
-		int maxlo = 0;
-		int maxhii = 0;
-		int maxloi = 0;
-		for (i = 0; i < (1 << 24); ++i) {
-			if (hicnt[i] > maxhi){
-				maxhi = hicnt[i];
-				maxhii = i;
-			}
-			if (locnt[i] > maxlo){
-				maxlo = locnt[i];
-				maxloi = i;
-			}
-		}
-		if (bfOpts['v'] && (verboseLevel > 2))
-			printf("\nINFO: maxhi=%d maxhii=%08x maxlo=%d maxloi=%08x\n", maxhi, maxhii, maxlo, maxloi);
-		if(maxhi >= weak_mifare_threshold && maxlo >= weak_mifare_threshold)
-		{
-			flag_key_recovered = 1;
-			*ui64KeyRecovered = ((uint64_t)maxhii<<24) + maxloi;
-			printf("\nINFO: block %d recovered KEY: %012"PRIx64"\n", uiBlock, *ui64KeyRecovered);
-		}
-	}
+  if(weak_mifare_mode == true) {
+    if (bfOpts['v'] && (verboseLevel > 2))
+      printf("\nINFO: %d candidates found, nonce %08x\n", i, ptrFoundTagNonceEntry->tagNonce);
+    int maxhi = 0;
+    int maxlo = 0;
+    int maxhii = 0;
+    int maxloi = 0;
+    for (i = 0; i < (1 << 24); ++i) {
+      if (hicnt[i] > maxhi){
+        maxhi = hicnt[i];
+        maxhii = i;
+      }
+      if (locnt[i] > maxlo){
+        maxlo = locnt[i];
+        maxloi = i;
+      }
+    }
+    if (bfOpts['v'] && (verboseLevel > 2))
+      printf("\nINFO: maxhi=%d maxhii=%08x maxlo=%d maxloi=%08x\n", maxhi, maxhii, maxlo, maxloi);
+    if(maxhi >= weak_mifare_threshold && maxlo >= weak_mifare_threshold)
+    {
+      flag_key_recovered = 1;
+      *ui64KeyRecovered = ((uint64_t)maxhii<<24) + maxloi;
+      printf("\nINFO: block %d recovered KEY: %012"PRIx64"\n", uiBlock, *ui64KeyRecovered);
+    }
+  }
 
         crypto1_destroy(states_list);
 
@@ -1070,14 +1070,14 @@ int main(int argc, char *argv[])
         break;
 
       case 'w':
-    	if (!(i = atoi(optarg)) || (i < 1)) {
-    		WARN("non-supported threshold value (%s)", optarg);
-    	} else {
-    		printf("TRESHOLD: %d\n",i);
-    		weak_mifare_mode = true;
-    		weak_mifare_threshold = i;
-    	}
-    	break;
+      if (!(i = atoi(optarg)) || (i < 1)) {
+        WARN("non-supported threshold value (%s)", optarg);
+      } else {
+        printf("TRESHOLD: %d\n",i);
+        weak_mifare_mode = true;
+        weak_mifare_threshold = i;
+      }
+      break;
 
       case 'M':
         // Mifare Classic type option
@@ -1636,7 +1636,7 @@ int main(int argc, char *argv[])
   }
 
   // RECOVER KEYS CODE-BLOCK
-  
+
   printf("\nRECOVER: ");
   for (i = 0; i < max_sectors; i++) {
     uint64_t crntRecovKey = 0;
